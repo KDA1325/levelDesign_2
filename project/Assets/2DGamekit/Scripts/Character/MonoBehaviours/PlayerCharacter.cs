@@ -304,7 +304,12 @@ namespace Gamekit2D
             {
                 if (Time.time >= m_NextShotTime)
                 {
-                    string[] row = { "Shoot", System.DateTime.Now.ToString() };
+                    // 현재 날짜와 시간, position.x string으로 변환한 값, position.y string으로 변환한 값
+                    string[] row = { "Shoot", System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), transform.position.x.ToString(), transform.position.y.ToString()};
+                    // 미리 만들어둔 리스트에 데이터를 먼저 저장하고 나중에 덮어쓰기 하기
+                    //CsvParse.instance.colList.Add(row);
+                    CsvParse.instance.Write(row);
+
                     SpawnBullet();
                     m_NextShotTime = Time.time + m_ShotSpawnGap;
                 }

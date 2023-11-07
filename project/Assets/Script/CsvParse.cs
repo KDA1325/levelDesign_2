@@ -15,6 +15,8 @@ public class CsvParse : MonoBehaviour {
 
 	public CsvFileWrite csvFile = new CsvFileWrite();
 
+	public List<string> colList = new List<string>();
+
     private void Awake()
     {
 		_instance = this;
