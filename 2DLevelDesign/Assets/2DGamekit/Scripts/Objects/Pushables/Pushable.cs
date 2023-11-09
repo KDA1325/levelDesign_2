@@ -27,10 +27,14 @@ namespace Gamekit2D
         protected bool m_Grounded;
         Collider2D[] m_WaterColliders;
 
+        protected Vector3 initPosition;
+
         void Awake ()
         {
             m_SpriteRenderer = GetComponent<SpriteRenderer>();
             m_Rigidbody2D = GetComponent<Rigidbody2D> ();
+
+            initPosition = transform.position;
 
             if (s_PushableCache.Count == 0)
             {
@@ -118,6 +122,11 @@ namespace Gamekit2D
                     }
                 }
             }
+        }
+
+        public void Reset()
+        {
+            transform.position = initPosition;
         }
     }
 }
