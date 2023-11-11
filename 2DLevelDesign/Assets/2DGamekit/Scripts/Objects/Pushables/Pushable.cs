@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Gamekit2D
 {
@@ -34,7 +35,7 @@ namespace Gamekit2D
             m_SpriteRenderer = GetComponent<SpriteRenderer>();
             m_Rigidbody2D = GetComponent<Rigidbody2D> ();
 
-            initPosition = transform.position;
+            initPosition = pushablePosition.position;
 
             if (s_PushableCache.Count == 0)
             {
@@ -73,6 +74,10 @@ namespace Gamekit2D
                 {
                     m_Rigidbody2D.constraints |= RigidbodyConstraints2D.FreezePositionX;
                 }
+                else
+                {
+                    m_Rigidbody2D.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
+                }
             }
         }
 
@@ -102,6 +107,22 @@ namespace Gamekit2D
             }
         }
 
+        public void Reset()
+        {
+            m_Rigidbody2D.position = initPosition;
+            // x축 고정 -> x, y축 고정
+            //m_Rigidbody2D.constraints |= ~RigidbodyConstraints2D.FreezePositionX;
+            // x축 고정 -> x축 고정, 두 번 Reset하면 x축 고정 풀림
+            //m_Rigidbody2D.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
+            // x축 고정 -> x, y  둘 다 고정, 두 번 Reset하면 축만 고정 풀림, y축은 고정 그대로
+            //m_Rigidbody2D.constraints = ~RigidbodyConstraints2D.FreezePositionX;
+            
+            //pushablePosition.position = initPosition;
+            //CheckGrounded();
+            //Destroy(gameObject);
+            //Instantiate(gameObject, initPosition);
+        }
+
         protected void CheckGrounded()
         {
             m_Grounded = false;
@@ -122,11 +143,6 @@ namespace Gamekit2D
                     }
                 }
             }
-        }
-
-        public void Reset()
-        {
-            transform.position = initPosition;
         }
     }
 }
